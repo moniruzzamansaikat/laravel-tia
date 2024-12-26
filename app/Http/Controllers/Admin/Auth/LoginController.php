@@ -11,7 +11,10 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    public $redirectTo = '/';
+    protected function redirectTo()
+    {
+        return route('admin.home');
+    }
 
     protected function guard()
     {
@@ -45,5 +48,14 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    public function handleLogout(Request $request)
+    {
+        $this->logout($request);
+    }
+
+    protected function loggedOut() {
+        return to_route('admin.login');
     }
 }

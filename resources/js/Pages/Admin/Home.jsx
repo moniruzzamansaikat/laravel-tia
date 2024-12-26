@@ -1,18 +1,21 @@
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 
 const Home = () => {
     const { auth } = usePage().props;
 
-    console.log(auth);
+    const handleLogout = () => {
+        router.post('/admin/logout');
+    };  
 
     return (
         <div>
             <Head title="Admin Home" />
             <h1>Admin Home</h1>
 
-            <p>Welcome back, {JSON.stringify(auth)}</p>
+            <p>Welcome back, {auth?.admin?.username}</p>
 
-            <Link href="/admin/login">Login</Link>
+            {!auth?.admin && <Link href="/admin/login">Login</Link>}
+            {auth?.admin && <button onClick={handleLogout}>Logout</button>}
         </div>
     );
 };

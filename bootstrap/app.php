@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\RedirectIfAdmin;
+use App\Http\Middleware\RedirectIfNotAdmin;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -36,6 +38,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'auth' => Authenticate::class,
+            'admin.guest' => RedirectIfAdmin::class,
+            'admin' => RedirectIfNotAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

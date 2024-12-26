@@ -1,10 +1,18 @@
 import { Head, Link, router, usePage } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
 const Home = () => {
     const { auth } = usePage().props;
 
     const handleLogout = () => {
-        router.post('/admin/logout');
+        router.post('/admin/logout', {}, {
+            onSuccess: () => {
+                toast.success('You are logged out');
+            },
+            onError: () => {
+                toast.error('Logout failed. Please try again.');
+            }
+        });
     };  
 
     return (

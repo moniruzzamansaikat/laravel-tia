@@ -11,9 +11,4 @@ class AdminController extends Controller
     {
         return inertia()->render('Admin/Home');
     }
-
-    public function login()
-    {
-        return inertia()->render('Admin/Auth/Login');
-    }
 }

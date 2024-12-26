@@ -11,6 +11,11 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
+    public function showLoginForm()
+    {
+        return inertia()->render('Admin/Auth/Login');
+    }
+
     protected function redirectTo()
     {
         return route('admin.home');
@@ -55,7 +60,8 @@ class LoginController extends Controller
         $this->logout($request);
     }
 
-    protected function loggedOut() {
+    protected function loggedOut()
+    {
         return to_route('admin.login');
     }
 }

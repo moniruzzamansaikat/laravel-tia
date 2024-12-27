@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Admin;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,15 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $passwordHash = '$2y$12$BjqfG4PF/jj7YBQTqQcsWOMgrp2XBvf8JgZ7V0GKAzYXTXOrqQ4N6';
+
+        // Generate user data with pre-set attributes
+        $users = User::factory()->count(100)->make([
+            'password' => $passwordHash,
         ]);
 
-        $admin           = new Admin();
-        $admin->name     = 'admin';
-        $admin->username = 'admin';
-        $admin->password = Hash::make('admin');
-        $admin->save();
+        // Perform a single bulk insert
+        DB::table('users')->insert($users->toArray());
+
+        // Create admin directly without looping
+        DB::table('admins')->insert([
+            'name' => 'admin',
+            'username' => 'admin',
+            'password' => $passwordHash,
+        ]);
     }
 }

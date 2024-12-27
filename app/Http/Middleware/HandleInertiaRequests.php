@@ -18,9 +18,6 @@ class HandleInertiaRequests extends Middleware
     {
         $admin = auth()->guard('admin')->user();
 
-        // Debugging the value of authenticated admin
-        \Log::info('Authenticated Admin: ', ['admin' => $admin]);
-
         return array_merge(parent::share($request), [
             'auth' => [
                 'admin' => $admin,

@@ -10,4 +10,9 @@ export default defineConfig({
         }),
         react(),
     ],
+    // resolve: {
+    //     alias: {
+    //         'ziggy-js': path.resolve('vendor/tightenco/ziggy'),
+    //     }
+    // }
 });

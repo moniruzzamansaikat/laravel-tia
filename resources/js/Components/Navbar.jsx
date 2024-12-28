@@ -1,40 +1,50 @@
-import { Link } from "@inertiajs/react";
+import { Navbar, Nav, NavDropdown, Form, FormControl, Button, Container } from "react-bootstrap";
+import { Link, router } from "@inertiajs/react";
 import React from "react";
+import toast from "react-hot-toast";
 
-const Navbar = () => {
+const AdminNavbar = () => {
+    const handleLogout = () => {
+        router.post('/admin/logout', {}, {
+            onSuccess: () => {
+                toast.success('You are logged out');
+            },
+            onError: () => {
+                toast.error('Logout failed. Please try again.');
+            }
+        });
+    };  
+
+    
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container-fluid">
-                <a className="navbar-brand" href="/">
-                    MyApp
-                </a>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ms-auto">
-                        <li className="nav-item">
-                            <Link className="nav-link" aria-current="page" href="/">Home</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" href="/about">About</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" href="/contact">Contact</Link>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <Navbar expand="lg" className="admin-navbar">
+            <Container fluid>
+                <Form className="d-flex admin-navbar__search">
+                    <FormControl
+                        type="search"
+                        placeholder="Search..."
+                        className="me-2"
+                        aria-label="Search"
+                    />
+                </Form>
+
+                <Navbar.Toggle aria-controls="navbar-nav" />
+
+                <Navbar.Collapse id="navbar-nav">
+                    <Nav className="ms-auto">
+                        <NavDropdown title="Profile" id="profile-dropdown" align="end">
+                            <NavDropdown.Item as={Link} href="/profile">
+                                My Profile
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={handleLogout}>
+                                Logout
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 };
 
-export default Navbar;
+export default AdminNavbar;

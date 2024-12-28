@@ -1,1 +1,148 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+    --color-primary: #1798c1;
+    --color-primary-dark: #0f4c75;
+    --color-dark: #1b262c;
+    --color-light: #bbe1fa;
+    --color-white: #ffffff;
+    --color-secondary: #32b87a;
+    --color-gray1: #474747;
+
+    --box-shadow1: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    --box-shadow2: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+        rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+
+    --radius-1: 4px;
+    --radius-2: 8px;
+    --radius-3: 12px;
+
+    --sidebar-width: 250px;
+
+    --font-body: "Montserrat", serif;
+}
+
+body {
+    min-height: 100vh;
+    min-width: 100vw;
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+}
+
+.sidebar {
+    box-shadow: var(--box-shadow1);
+    color: var(--color-primary);
+    width: var(--sidebar-width);
+    min-height: 100vh;
+    background-color: var(--color-white);
+}
+
+.sidebar .brand-logo {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 0.6rem 10px;
+}
+
+.sidebar .list-group-item {
+    border-radius: 0;
+    background-color: var(--color-white);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 0;
+    font-weight: 500;
+    margin-bottom: 0.1rem;
+    transition: all 0.2s ease-in;
+    position: relative;
+}
+
+.sidebar .list-group-item .icon,
+.sidebar .list-group-item a {
+    color: var(--color-gray1);
+    text-decoration: none;
+}
+
+.sidebar .list-group-item .icon {
+    font-size: 1.1rem;
+}
+
+.sidebar .list-group-item::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 6px;
+    background-color: var(--color-primary);
+    top: 0;
+    left: 0;
+    border-radius: 0 100px 100px 0;
+    display: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar .list-group-item.active,
+.sidebar .list-group-item:hover .icon,
+.sidebar .list-group-item:hover {
+    color: var(--color-primary) !important;
+}
+
+.sidebar .list-group-item.active,
+.sidebar .list-group-item:hover {
+    box-shadow: var(--box-shadow2);
+}
+
+.sidebar .list-group-item.active::before,
+.sidebar .list-group-item:hover::before {
+    display: block;
+}
+/** end sidebar */
+
+/* start admin-navbar */
+.admin-navbar {
+    background-color: var(--color-primary);
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.admin-navbar a {
+    color: var(--color-white);
+}
+
+.admin-navbar .dropdown-menu a {
+    color: #1b262c;
+}
+/* end admin-navbar */
+
+/* start admin-main-content */
+.admin-main-content {
+    margin: 1rem;
+    margin-right: 2rem;
+}
+/* end admin-main-content */
+
+.admin--table {
+}
+
+.admin--table thead th {
+    background-color: var(--color-primary) !important;
+    color: var(--color-light);
+}
+
+.form-control {
+    border-color: var(--color-primary);
+    box-shadow: none !important;
+    border-radius: var(--radius-1);
+    border: 2px solid var(--color-primary);
+}
+
+.form-control:focus {
+    border-color: var(--color-primary);
+}
+
+.btn:focus,
+.btn {
+    background-color: var(--color-primary);
+    border-radius: var(--radius-1);
+    box-shadow: none !important;
+}

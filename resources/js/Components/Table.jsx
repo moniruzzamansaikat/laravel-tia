@@ -1,3 +1,5 @@
+import { Link } from "@inertiajs/react";
+
 function Table({ resource, columns, onPageChange }) {
     const currentPage = resource.current_page;
     const lastPage    = resource.last_page;
@@ -15,6 +17,9 @@ function Table({ resource, columns, onPageChange }) {
 
     const renderPageLinks = () => {
         const pages = [];
+
+        // redner null if no more pages
+        if(resource?.per_page == resource?.total) return null;
 
         if (currentPage > 1) {
             pages.push(
@@ -68,14 +73,17 @@ function Table({ resource, columns, onPageChange }) {
                 {columns.map((column) => (
                     <td key={column.key}>{row[column.key]}</td>
                 ))}
-                <td>Action</td>
+
+                <td>
+                    <Link>Edit</Link>
+                </td>
             </tr>
         ));
     };
 
     return (
-        <div>
-            <table className="table">
+        <div className="table-responsive">
+            <table className="table admin--table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -90,16 +98,15 @@ function Table({ resource, columns, onPageChange }) {
                 <tbody>{renderTableRows()}</tbody>
             </table>
 
-            {/* Pagination Controls */}
-            <nav aria-label="Page navigation">
+            <nav aria-label="Page navigation" className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-end">
+                    <small>
+                        Showing {from} to {to} of {total} items
+                    </small>
+                </div>
                 <ul className="pagination">{renderPageLinks()}</ul>
             </nav>
 
-            <div>
-                <small>
-                    Showing {from} to {to} of {total} items
-                </small>
-            </div>
         </div>
     );
 }

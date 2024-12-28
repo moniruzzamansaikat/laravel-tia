@@ -1,18 +1,14 @@
+import { Head } from "@inertiajs/react";
 import React from "react";
-import Navbar from "../Components/Navbar";
-import { Link } from "@inertiajs/react";
-import Sidebar from "../Components/Sidebar";
 import { Toaster } from "react-hot-toast";
 
-function DefaultLayout({ children }) {
+function AuthLayout({ title, children }) {
     return (
         <>
+            <Head title={title} />
             <Toaster position="top-right" />
             <div className="d-flex">
-                <Sidebar />
-
                 <div className="flex-grow-1">
-                    <Navbar />
                     <main className="admin-main-content">{children}</main>
                 </div>
             </div>
@@ -20,4 +16,4 @@ function DefaultLayout({ children }) {
     );
 }
 
-export default DefaultLayout;
+export default AuthLayout;

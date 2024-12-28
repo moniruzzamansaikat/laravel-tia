@@ -19,6 +19,10 @@ class HandleInertiaRequests extends Middleware
         $admin = auth()->guard('admin')->user();
 
         return array_merge(parent::share($request), [
+            'flush' => [
+                'success' => session('success'),
+                'error' => session('error'),
+            ],
             'auth' => [
                 'admin' => $admin,
             ],

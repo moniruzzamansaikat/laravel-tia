@@ -18,7 +18,7 @@ class UsersController extends Controller
                 $query->where('name', 'like', "%{$search}%")
                       ->orWhere('email', 'like', "%{$search}%");
             })
-            ->paginate(50);
+            ->paginate(10);
         
         return inertia()->render('Admin/Users/Index', compact('users'));
     }

@@ -2,10 +2,10 @@ import { Link } from "@inertiajs/react";
 
 function Table({ resource, columns, onPageChange }) {
     const currentPage = resource.current_page;
-    const lastPage    = resource.last_page;
-    const from        = resource.from;
-    const to          = resource.to;
-    const total       = resource.total;
+    const lastPage = resource.last_page;
+    const from = resource.from;
+    const to = resource.to;
+    const total = resource.total;
 
     const data = resource.data;
 
@@ -18,9 +18,31 @@ function Table({ resource, columns, onPageChange }) {
     const renderPageLinks = () => {
         const pages = [];
 
-        // redner null if no more pages
-        if(resource?.per_page == resource?.total) return null;
+        // Return null if there's only one page or if all data fits on one page
+        if (lastPage <= 1 || resource?.per_page === resource?.total)
+            return null;
 
+        const maxVisiblePages = 5; // Number of visible pages around the current page
+
+        const addPage = (page) => {
+            pages.push(
+                <li
+                    className={`page-item ${
+                        page === currentPage ? "active" : ""
+                    }`}
+                    key={page}
+                >
+                    <button
+                        className="page-link"
+                        onClick={() => handlePageChange(page)}
+                    >
+                        {page}
+                    </button>
+                </li>
+            );
+        };
+
+        // Add "Previous" button
         if (currentPage > 1) {
             pages.push(
                 <li className="page-item" key="prev">
@@ -34,22 +56,45 @@ function Table({ resource, columns, onPageChange }) {
             );
         }
 
-        for (let i = 1; i <= lastPage; i++) {
-            pages.push(
-                <li
-                    className={`page-item ${i === currentPage ? "active" : ""}`}
-                    key={i}
-                >
-                    <button
-                        className="page-link"
-                        onClick={() => handlePageChange(i)}
-                    >
-                        {i}
-                    </button>
-                </li>
-            );
+        // Add first page
+        if (currentPage > Math.floor(maxVisiblePages / 2) + 1) {
+            addPage(1);
+            if (currentPage > Math.floor(maxVisiblePages / 2) + 2) {
+                pages.push(
+                    <li className="page-item disabled" key="ellipsis-start">
+                        <span className="page-link">...</span>
+                    </li>
+                );
+            }
         }
 
+        // Add visible pages around the current page
+        const startPage = Math.max(
+            1,
+            currentPage - Math.floor(maxVisiblePages / 2)
+        );
+        const endPage = Math.min(
+            lastPage,
+            currentPage + Math.floor(maxVisiblePages / 2)
+        );
+
+        for (let i = startPage; i <= endPage; i++) {
+            addPage(i);
+        }
+
+        // Add last page
+        if (currentPage < lastPage - Math.floor(maxVisiblePages / 2)) {
+            if (currentPage < lastPage - Math.floor(maxVisiblePages / 2) - 1) {
+                pages.push(
+                    <li className="page-item disabled" key="ellipsis-end">
+                        <span className="page-link">...</span>
+                    </li>
+                );
+            }
+            addPage(lastPage);
+        }
+
+        // Add "Next" button
         if (currentPage < lastPage) {
             pages.push(
                 <li className="page-item" key="next">
@@ -98,7 +143,10 @@ function Table({ resource, columns, onPageChange }) {
                 <tbody>{renderTableRows()}</tbody>
             </table>
 
-            <nav aria-label="Page navigation" className="d-flex justify-content-between align-items-center">
+            <nav
+                aria-label="Page navigation"
+                className="d-flex justify-content-between align-items-center"
+            >
                 <div className="d-flex justify-content-end">
                     <small>
                         Showing {from} to {to} of {total} items
@@ -106,7 +154,6 @@ function Table({ resource, columns, onPageChange }) {
                 </div>
                 <ul className="pagination">{renderPageLinks()}</ul>
             </nav>
-
         </div>
     );
 }
